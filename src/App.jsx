@@ -89,6 +89,21 @@ export default function App() {
     }, 2800);
   };
 
+  const resetToDefaults = () => {
+    localStorage.removeItem('studysync_classes');
+    localStorage.removeItem('studysync_tasks');
+    localStorage.removeItem('studysync_focus');
+    localStorage.removeItem('studysync_gpa');
+    setClasses(initialClasses);
+    setTasks(initialTasks);
+    setTodayFocusMinutes(45);
+    setGpaCourses(initialGPACourses);
+    triggerToast('App reset to beautiful default mock data! 🔄');
+    if (tg?.HapticFeedback) {
+      tg.HapticFeedback.notificationOccurred('success');
+    }
+  };
+
   const handleTabChange = (targetView) => {
     setView(targetView);
     if (tg?.HapticFeedback) {
@@ -108,6 +123,7 @@ export default function App() {
             todayFocusMinutes={todayFocusMinutes} 
             setView={setView}
             showToast={triggerToast}
+            resetToDefaults={resetToDefaults}
           />
         );
       case 'timetable':
