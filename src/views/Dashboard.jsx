@@ -7,7 +7,8 @@ export default function Dashboard({
   tasks, 
   todayFocusMinutes, 
   setView, 
-  showToast 
+  showToast,
+  resetToDefaults
 }) {
   const [nextClass, setNextClass] = useState(null);
   const [timeRemaining, setTimeRemaining] = useState('');
@@ -242,33 +243,53 @@ export default function Dashboard({
         </div>
       </div>
 
-      {/* Telegram Action Section */}
-      <div className="glass-panel" style={{ padding: '18px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        <div>
-          <h4 style={{ fontSize: '14px', fontWeight: '700', color: '#fff', display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Bell size={15} color="var(--color-accent)" />
-            Telegram Bot Linkage
-          </h4>
-          <p style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '4px' }}>
-            Test your StudySync Telegram bot reminder triggers directly on your device.
-          </p>
+      {/* Settings & Admin Actions */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '10px' }}>
+        {/* Telegram Action Section */}
+        <div className="glass-panel" style={{ padding: '18px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div>
+            <h4 style={{ fontSize: '14px', fontWeight: '700', color: '#fff', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Bell size={15} color="var(--color-accent)" />
+              Telegram Bot Linkage
+            </h4>
+            <p style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '4px' }}>
+              Test your StudySync Telegram bot reminder triggers directly on your device.
+            </p>
+          </div>
+          
+          <button 
+            className="glass-button" 
+            style={{ 
+              background: 'linear-gradient(90deg, #0088cc, #00a2ed)', 
+              boxShadow: '0 4px 12px rgba(0, 136, 204, 0.25)',
+              marginTop: '4px',
+              fontSize: '13px',
+              padding: '10px 16px',
+              width: '100%',
+              fontWeight: '600'
+            }}
+            onClick={sendTelegramReminder}
+            disabled={sendingNotification}
+          >
+            {sendingNotification ? 'Triggering...' : 'Send Live Telegram Alert'}
+          </button>
         </div>
-        
+
+        {/* Reset App Data */}
         <button 
-          className="glass-button" 
+          className="glass-button-secondary" 
           style={{ 
-            background: 'linear-gradient(90deg, #0088cc, #00a2ed)', 
-            boxShadow: '0 4px 12px rgba(0, 136, 204, 0.25)',
-            marginTop: '4px',
-            fontSize: '13px',
-            padding: '10px 16px',
-            width: '100%',
-            fontWeight: '600'
+            width: '100%', 
+            padding: '12px', 
+            fontSize: '13px', 
+            borderRadius: '12px',
+            borderColor: 'rgba(236, 72, 153, 0.2)',
+            color: 'rgba(255,255,255,0.7)',
+            backgroundColor: 'rgba(236, 72, 153, 0.03)'
           }}
-          onClick={sendTelegramReminder}
-          disabled={sendingNotification}
+          onClick={resetToDefaults}
         >
-          {sendingNotification ? 'Triggering...' : 'Send Live Telegram Alert'}
+          🔄 Reset Application to Defaults
         </button>
       </div>
     </div>
