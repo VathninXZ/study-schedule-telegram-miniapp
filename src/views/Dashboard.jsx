@@ -8,7 +8,10 @@ export default function Dashboard({
   todayFocusMinutes, 
   setView, 
   showToast,
-  resetToDefaults
+  resetToDefaults,
+  streak,
+  incrementStreak,
+  decrementStreak
 }) {
   const [nextClass, setNextClass] = useState(null);
   const [timeRemaining, setTimeRemaining] = useState('');
@@ -143,9 +146,76 @@ export default function Dashboard({
         </div>
         
         {/* Streak 🔥 */}
-        <div className="glass-panel" style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 14px', borderRadius: '12px', border: '1px solid rgba(245, 158, 11, 0.2)' }}>
-          <Flame size={18} color="var(--color-warning)" style={{ animation: 'float 2s ease-in-out infinite' }} />
-          <span style={{ fontSize: '14px', fontWeight: '800', color: 'var(--color-warning)' }}>5 Days</span>
+        <div 
+          className="glass-panel" 
+          style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '8px', 
+            padding: '6px 12px', 
+            borderRadius: '12px', 
+            border: '1px solid rgba(245, 158, 11, 0.2)' 
+          }}
+        >
+          <div 
+            onClick={incrementStreak}
+            style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '6px',
+              cursor: 'pointer' 
+            }}
+            title="Click to increment your study streak!"
+          >
+            <Flame size={18} color="var(--color-warning)" style={{ animation: 'float 2s ease-in-out infinite' }} />
+            <span style={{ fontSize: '14px', fontWeight: '800', color: 'var(--color-warning)', userSelect: 'none' }}>
+              {streak} {streak === 1 ? 'Day' : 'Days'}
+            </span>
+          </div>
+          <div style={{ display: 'flex', gap: '6px', marginLeft: '2px', borderLeft: '1px solid rgba(245, 158, 11, 0.2)', paddingLeft: '8px' }}>
+            <button 
+              onClick={decrementStreak}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'var(--text-secondary)',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: 'bold',
+                padding: '0 4px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'color 0.2s'
+              }}
+              onMouseEnter={(e) => e.target.style.color = '#fff'}
+              onMouseLeave={(e) => e.target.style.color = 'var(--text-secondary)'}
+              title="Decrease Streak"
+            >
+              -
+            </button>
+            <button 
+              onClick={incrementStreak}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'var(--text-secondary)',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: 'bold',
+                padding: '0 4px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'color 0.2s'
+              }}
+              onMouseEnter={(e) => e.target.style.color = '#fff'}
+              onMouseLeave={(e) => e.target.style.color = 'var(--text-secondary)'}
+              title="Increase Streak"
+            >
+              +
+            </button>
+          </div>
         </div>
       </div>
 

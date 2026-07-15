@@ -57,6 +57,16 @@ export default function App() {
     return saved ? JSON.parse(saved) : initialGPACourses;
   });
 
+  const [streak, setStreak] = useState(() => {
+    const saved = localStorage.getItem('studysync_streak');
+    return saved ? Number(saved) : 5;
+  });
+
+  const [completedSessions, setCompletedSessions] = useState(() => {
+    const saved = localStorage.getItem('studysync_completed_sessions');
+    return saved ? Number(saved) : 0;
+  });
+
   // Current Screen / Tab View
   const [view, setView] = useState('dashboard'); // dashboard, timetable, tasks, pomodoro, analytics
 
@@ -81,6 +91,14 @@ export default function App() {
     localStorage.setItem('studysync_gpa', JSON.stringify(gpaCourses));
   }, [gpaCourses]);
 
+  useEffect(() => {
+    localStorage.setItem('studysync_streak', String(streak));
+  }, [streak]);
+
+  useEffect(() => {
+    localStorage.setItem('studysync_completed_sessions', String(completedSessions));
+  }, [completedSessions]);
+
   const triggerToast = (msg) => {
     setToastMessage(msg);
     setShowToast(true);
@@ -89,15 +107,35 @@ export default function App() {
     }, 2800);
   };
 
+  const incrementStreak = () => {
+    setStreak(prev => prev + 1);
+    triggerToast('Streak increased! Keep up the momentum! 🔥');
+    if (tg?.HapticFeedback) {
+      tg.HapticFeedback.impactOccurred('medium');
+    }
+  };
+
+  const decrementStreak = () => {
+    setStreak(prev => Math.max(0, prev - 1));
+    triggerToast('Streak updated.');
+    if (tg?.HapticFeedback) {
+      tg.HapticFeedback.impactOccurred('light');
+    }
+  };
+
   const resetToDefaults = () => {
     localStorage.removeItem('studysync_classes');
     localStorage.removeItem('studysync_tasks');
     localStorage.removeItem('studysync_focus');
     localStorage.removeItem('studysync_gpa');
+    localStorage.removeItem('studysync_streak');
+    localStorage.removeItem('studysync_completed_sessions');
     setClasses(initialClasses);
     setTasks(initialTasks);
     setTodayFocusMinutes(45);
     setGpaCourses(initialGPACourses);
+    setStreak(5);
+    setCompletedSessions(0);
     triggerToast('App reset to beautiful default mock data! 🔄');
     if (tg?.HapticFeedback) {
       tg.HapticFeedback.notificationOccurred('success');
@@ -124,6 +162,9 @@ export default function App() {
             setView={setView}
             showToast={triggerToast}
             resetToDefaults={resetToDefaults}
+            streak={streak}
+            incrementStreak={incrementStreak}
+            decrementStreak={decrementStreak}
           />
         );
       case 'timetable':
@@ -148,6 +189,8 @@ export default function App() {
           <Pomodoro 
             todayFocusMinutes={todayFocusMinutes} 
             setTodayFocusMinutes={setTodayFocusMinutes} 
+            completedSessions={completedSessions}
+            setCompletedSessions={setCompletedSessions}
             showToast={triggerToast} 
           />
         );

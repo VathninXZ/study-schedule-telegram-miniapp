@@ -1,12 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Play, Pause, RotateCcw, Volume2, VolumeX, Sparkles } from 'lucide-react';
 
-export default function Pomodoro({ todayFocusMinutes, setTodayFocusMinutes, showToast }) {
+export default function Pomodoro({ 
+  todayFocusMinutes, 
+  setTodayFocusMinutes, 
+  completedSessions,
+  setCompletedSessions,
+  showToast 
+}) {
   // Timer States
   const [mode, setMode] = useState('focus'); // focus, shortBreak, longBreak
   const [timeLeft, setTimeLeft] = useState(25 * 60);
   const [isActive, setIsActive] = useState(false);
-  const [completedSessions, setCompletedSessions] = useState(0);
   
   // Audio states
   const [activeSound, setActiveSound] = useState(null); // lofi, rain, forest, noise
