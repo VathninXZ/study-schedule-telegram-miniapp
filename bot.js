@@ -1,9 +1,11 @@
+import http from 'http';
+
 // Configuration
 const BOT_TOKEN = '8919917581:AAElpriRpPugErdJyrtHMrtvWyl62DXFhN8';
 
 // IMPORTANT: Telegram requires an HTTPS URL to load Web Apps inside the client.
-// Replace this with your public HTTPS URL (e.g., ngrok url, Vercel deployment, etc.)
-const MINI_APP_URL = 'https://study-sync-dummy-preview.vercel.app'; // Modify this to your actual HTTPS URL
+// Replace this with your public HTTPS URL or configure it using the MINI_APP_URL environment variable.
+const MINI_APP_URL = process.env.MINI_APP_URL || 'https://studysync-frontend-srtr.onrender.com';
 
 const API_BASE = `https://api.telegram.org/bot${BOT_TOKEN}`;
 
@@ -93,6 +95,15 @@ async function pollUpdates() {
 }
 
 async function start() {
+  // Bind simple HTTP server for Render health checks
+  const port = process.env.PORT || 10000;
+  http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('StudySync Bot is Active!\n');
+  }).listen(port, () => {
+    console.log(`Dummy HTTP server running on port ${port} (for Render health checks)`);
+  });
+
   await setupMenuButton();
   console.log('Bot long polling started... Send a message to your bot to test.');
   await pollUpdates();
