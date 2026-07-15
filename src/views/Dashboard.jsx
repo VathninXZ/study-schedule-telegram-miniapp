@@ -97,7 +97,7 @@ export default function Dashboard({
     
     // Telegram Bot configuration from user request
     const botToken = '8919917581:AAElpriRpPugErdJyrtHMrtvWyl62DXFhN8';
-    const chatId = '906605365';
+    const chatId = user?.id || '906605365';
     
     const messageText = `🔔 *StudySync Reminder*\n\nHey ${user?.first_name || 'Student'}! 👋\n` + 
       (nextClass 

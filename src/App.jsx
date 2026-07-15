@@ -36,36 +36,13 @@ export default function App() {
     username: 'alex_dev'
   };
 
-  // State initialization with localStorage
-  const [classes, setClasses] = useState(() => {
-    const saved = localStorage.getItem('studysync_classes');
-    return saved ? JSON.parse(saved) : initialClasses;
-  });
-
-  const [tasks, setTasks] = useState(() => {
-    const saved = localStorage.getItem('studysync_tasks');
-    return saved ? JSON.parse(saved) : initialTasks;
-  });
-
-  const [todayFocusMinutes, setTodayFocusMinutes] = useState(() => {
-    const saved = localStorage.getItem('studysync_focus');
-    return saved ? Number(saved) : 45;
-  });
-
-  const [gpaCourses, setGpaCourses] = useState(() => {
-    const saved = localStorage.getItem('studysync_gpa');
-    return saved ? JSON.parse(saved) : initialGPACourses;
-  });
-
-  const [streak, setStreak] = useState(() => {
-    const saved = localStorage.getItem('studysync_streak');
-    return saved ? Number(saved) : 5;
-  });
-
-  const [completedSessions, setCompletedSessions] = useState(() => {
-    const saved = localStorage.getItem('studysync_completed_sessions');
-    return saved ? Number(saved) : 0;
-  });
+  // State initialization with defaults
+  const [classes, setClasses] = useState(initialClasses);
+  const [tasks, setTasks] = useState(initialTasks);
+  const [todayFocusMinutes, setTodayFocusMinutes] = useState(45);
+  const [gpaCourses, setGpaCourses] = useState(initialGPACourses);
+  const [streak, setStreak] = useState(5);
+  const [completedSessions, setCompletedSessions] = useState(0);
 
   // Current Screen / Tab View
   const [view, setView] = useState('dashboard'); // dashboard, timetable, tasks, pomodoro, analytics
